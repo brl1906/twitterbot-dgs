@@ -1,0 +1,8 @@
+*.html
+*.log
+*.txt
+*.xlsx
+configuration/
+.DS_Store
+images/
+__pycache__
