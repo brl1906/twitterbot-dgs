@@ -8,6 +8,7 @@ Date 3/3/2019
 
 from configparser import ConfigParser
 import datetime as dt
+import os
 import warnings
 
 import datadotworld as dw
@@ -16,7 +17,9 @@ import pandas as pd
 warnings.filterwarnings('ignore')
 
 config = ConfigParser() # accessing datadotworld variables
-config.read('configuration/config.ini')
+config.read(os.path.join(os.pardir,'configuration','config.ini'))
+folder = config.get(section='data_files', option='directory')
+file = config.get(section='data_files',option='geo_file')
 
 def get_data(key, data_name):
     """
@@ -157,6 +160,7 @@ def add_latlong(frame, file, nrows2skip):
 
     return frame
 
+
 def weekday_name(integer):
     """Convert integer from tiemstamp dayofweek value to weekday name.
 
@@ -266,7 +270,6 @@ def strong_correlations(df, col_name, threshold=.5):
     return summary
 
 
-data = dataframe(key=config.get(section='datadotworld',option='key'),
-            data_name=config.get(section='datadotworld', option='data_name'),
-            lat_long_file=config.get(section='datadotworld',option='file'),
-            skiprows=6)
+data = dataframe(key=config.get(section='datadotworld', option='key'),
+                data_name=config.get(section='datadotworld', option='data_name'),
+                lat_long_file=os.path.join(os.pardir,folder,file), skiprows=6)

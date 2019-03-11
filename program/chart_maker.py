@@ -3,11 +3,9 @@ to be passed as images to tweet.
 Author: Babila Lima
 Date 3/3/2019
 """
-
 from datetime import datetime
 import os
 
-import data_handler
 import matplotlib.colors
 import matplotlib.cm as colormap
 import matplotlib.pyplot as plt
@@ -17,12 +15,10 @@ import plotly.graph_objs as go
 import plotly.offline as pyo
 import seaborn as sns
 
+from data_handler import data as dframe
+
 pyo.init_notebook_mode(connected=True)
 sns.set_style(style='ticks')
-# set matplotlib backend for Mac Os X system
-#matplotlib.use('TkAgg')
-
-dataframe = data_handler.data
 
 # first chart -- donut chart of request volume by problem type
 def topn_requests_donut(df, period, topn=20):
@@ -98,20 +94,23 @@ def topn_requests_donut(df, period, topn=20):
 
     # save and return png file
     stamp = datetime.today().strftime('%m-%d-%Y')
-    if not os.path.exists('images'):
-        os.mkdir('images')
+    if not os.path.exists(os.path.join(os.pardir,'data','images')):
+        os.mkdir(os.path.join(os.pardir,'data','images'))
 
     if period == 'year':
-        img_filename = ('images/{} top{}_requests{}.png'
+        base_fname = ('{} top{}_requests{}.png'
                         .format(stamp,topn,current_year))
     elif period == 'week':
-        img_filename = ('images/{} top{}_requests_week{}.png'
+        base_fname = ('{} top{}_requests_week{}.png'
                         .format(stamp,topn,current_week))
     else:
         pass
-    image = pie.savefig(fname=img_filename)
 
-    return img_filename
+    full_fname = os.path.join(os.pardir,'data','images', base_fname)
+    image = pie.savefig(fname=full_fname)
+
+    return full_fname
+
 
 # second chart -- comparison of weekly maintenance reqeust volume
 def yearoveryear_reqeusts_volume(df):
@@ -181,11 +180,14 @@ def yearoveryear_reqeusts_volume(df):
                     )
 
     fig = {'data':traces, 'layout':layout}
+
     # save image to file
-    if not os.path.exists('images'):
-        os.mkdir('images')
+    if not os.path.exists(os.path.join(os.pardir,'data','images')):
+        os.mkdir(os.path.join(os.pardir,'data','images'))
 
-    img_filename = ('images/{} weekly_volume_comparision.png'.format(stamp))
-    pio.write_image(fig=fig, file=img_filename, format='png')
 
-    return img_filename
+    base_fname = ('{} weekly_volume_comparision.png'.format(stamp))
+    full_fname = os.path.join(os.pardir, 'data','images', base_fname)
+    pio.write_image(fig=fig, file=full_fname, format='png')
+
+    return full_fname

@@ -5,13 +5,16 @@ Date 3/4/2019
 
 from configparser import ConfigParser
 import imghdr
+import os
 import sys
+
 import tweepy
 
 config = ConfigParser()
-config.read('configuration/config.ini')
-api_key = config.get('api_key', 'api_key')
-api_secret = config.get('api_secret', 'api_secret')
+config.read(os.path.join(os.pardir,'configuration','config.ini'))
+#config.read('configuration/config.ini')
+api_key = config.get(section='api_key', option='api_key')
+api_secret = config.get(section='api_secret', option='api_secret')
 access_token = config.get('access_token', 'access_token')
 token_secret = config.get('token_secret', 'token_secret')
 # instantiate api object
