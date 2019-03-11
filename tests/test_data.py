@@ -11,7 +11,7 @@ class TestConfigFileExistence(unittest.TestCase):
         self.config = ConfigParser()
         self.config.read(self.file)
         self.section_names = ['api_key','api_secret','access_token',
-                            'token_secret','datadotworld']
+                            'token_secret','datadotworld', 'data_files']
 
     def tearDown(self):
         pass
@@ -46,12 +46,7 @@ class TestDataRetrieval(unittest.TestCase):
 
     # test that dataframe function returns certain basic columns
 
-class TestChartImageFileGenerator(unittest.TestCase):
-    def put_future_tests_here():
-        # test that first chart returns file string
-        # test that second chart retruns file string
-        # test that the files will be saved @ data/images
-        pass
+
 
 
 
