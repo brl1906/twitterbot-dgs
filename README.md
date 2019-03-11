@@ -42,4 +42,6 @@ Ana, Melanie, [Code In The Schools](https://www.codeintheschools.org/)
 - [ ] Add logic in program for Monday Wednesday Friday tweets pushing target images on specific days
 - [ ] (temporary) Manually or write script that opens target excel file, lets it update, saves to get updated daily FMD data OR move this step later and learn to run this program from the network computer
 - [ ] Get project dependencies all in a virtual environment
+- [ ] Create project documentation
 - [ ] Build pipeline that calls the target data daily (consider Apache Airflow or Luigi) so the program can provide realtime status on issues via tweeted charts, tweeted observations on the data
+- [ ] Deploy to run remotely
