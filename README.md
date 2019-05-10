@@ -9,14 +9,7 @@ Add info on purpose here -- automation, code4city, testing pipelines
 
 # Built With  
 
-* Love and...
-  * Python 3.6
-  * Pandas
-  * Matplotlib
-  * Plotly
-  * Seaborn
-  * Tweepy
-  * Datadotworld
+Python 3.6, [Pandas](https://pandas.pydata.org/), [Matplotlib](https://matplotlib.org/), [Plotly](https://plot.ly/python/), [Seaborn](https://seaborn.pydata.org/), [Tweepy](https://www.tweepy.org/), [Datadotworld](https://apidocs.data.world/api)
 
 # Authors
 
@@ -28,4 +21,4 @@ Add license info
 
 # Acknowledgements
 
-Ana, Melanie, [Code In The Schools](https://www.codeintheschools.org/)
+Ana Basoco, Melanie Shimano, [Code In The Schools](https://www.codeintheschools.org/)
