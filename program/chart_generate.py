@@ -4,6 +4,7 @@ Author: Babila Lima
 Date 3/3/2019
 """
 import os
+import shutil
 from datetime import datetime
 
 import matplotlib.colors
@@ -13,6 +14,58 @@ import numpy as np
 import seaborn as sns
 
 sns.set_style(style='ticks')
+
+##################################################################
+                        # HELPER FUNCTIONS #
+##################################################################
+image_folder = os.path.join(os.pardir,'data','images')
+
+def delete_directory(folder):
+    """Delete file directory recursively and log info about transaction.
+    
+    Parameters
+    -----------
+    folder:   str or list 
+            name or names of folders to be deleted
+            
+    Returns
+    -------
+    String: Status of program run. Possible return values are 'Fail' & 'Pass'
+    
+    Examples
+    --------
+    >>> delete_directory(folder='images')
+    
+    >>> delete_directory(folder='data/images')
+    
+    >>> delete_directory(folder=['data/images','data/pdfs','licenseplates'])
+        
+    
+    """
+    import shutil
+    if os.path.exists(folder):
+        try:
+            files_for_removal = [] 
+            [files_for_removal.append(f) for f in os.listdir(folder)]
+            num_files = len(files_for_removal) 
+            shutil.rmtree(folder)
+
+            print('this should log: {} :: {} deleted '
+                  .format(timestamp, folder))
+            status = 'Pass'
+
+        except OSError as e:
+            status = 'Fail'
+            print('folder: {} -- {}'.format(folder, e))
+            
+    else:
+        pass
+    
+    return status
+
+##################################################################
+                        # CHARTS #
+##################################################################
 
 ## donut chart of request volume by problem type
 ## visualize the top n problem types by category 
