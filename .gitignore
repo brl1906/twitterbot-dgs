@@ -1,6 +1,7 @@
 *.html
 *.log
 *.txt
+venv-twitterbot
 configuration/
 .DS_Store
 .ipynb_checkpoints/
