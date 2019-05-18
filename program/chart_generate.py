@@ -18,6 +18,7 @@ import seaborn as sns
 
 sns.set_style(style='ticks')
 
+logfile = 'execution.log'
 
 ##################################################################
                         # HELPER FUNCTIONS #
@@ -69,8 +70,9 @@ def delete_directory(folder):
     obj = inspect.currentframe()
     frame = inspect.getframeinfo(obj)
     
+    
     logging.basicConfig(
-        filename='test_log.log',
+        filename=logfile,
         format='%(asctime)s ::: **%(levelname)s** %(message)s', datefmt='%Y-%m-%d %I:%M:%S')
     
     logger = logging.getLogger(frame.function)
@@ -84,6 +86,8 @@ def delete_directory(folder):
 ##################################################################
                         # CHARTS #
 ##################################################################
+
+image_folder = os.path.join(os.pardir,'data','images')
 
 ## donut chart of request volume by problem type
 ## visualize the top n problem types by category 
@@ -166,9 +170,9 @@ def topn_requests_donut(df, period, topn=20):
 
     ## save chart image and return png file
     stamp = datetime.today().strftime('%m-%d-%Y')
-    if not os.path.exists(os.path.join(os.pardir,'data','images')):
-        os.mkdir(os.path.join(os.pardir,'data','images'))
-
+    if not os.path.exists(image_folder):
+        os.mkdir(image_folder)
+        
     if period == 'year':
         base_fname = ('{} top{}_requests{}.png'
                         .format(stamp,topn,current_year))
@@ -178,8 +182,9 @@ def topn_requests_donut(df, period, topn=20):
     else:
         pass # this could be improved to a log error or warning 
     
-    full_fname = os.path.join(os.pardir,'data','images', base_fname)
+    full_fname = os.path.join(image_folder, base_fname)
     image = pie.savefig(fname=full_fname)
+    
         
     if os.path.isfile(full_fname): 
         status = 'Pass'
@@ -191,7 +196,7 @@ def topn_requests_donut(df, period, topn=20):
     frame = inspect.getframeinfo(obj)
     
     logging.basicConfig(
-        filename='test_log.log',
+        filename=logfile,
         format='%(asctime)s ::: **%(levelname)s** %(message)s', datefmt='%Y-%m-%d %I:%M:%S')
     
     logger = logging.getLogger(frame.function)
@@ -269,11 +274,11 @@ def yearoveryear_reqeusts_volume(df):
     
     ## create a data/images folder if one doesn't exist
     ## save the chart image to images folder 
-    if not os.path.exists(os.path.join(os.pardir,'data','images')):
-        os.mkdir(os.path.join(os.pardir,'data','images'))
-
+    if not os.path.exists(image_folder):
+        os.mkdir(image_folder)
+                
     base_fname = ('{} weekly_volume_comparision.png'.format(runtime_stamp))
-    full_fname = os.path.join(os.pardir, 'data','images', base_fname)
+    full_fname = os.path.join(image_folder, base_fname)
     fig.savefig(full_fname)
     
     if os.path.isfile(full_fname):
@@ -286,7 +291,7 @@ def yearoveryear_reqeusts_volume(df):
     frame = inspect.getframeinfo(obj)
     
     logging.basicConfig(
-        filename='test_log.log',
+        filename=logfile,
         format='%(asctime)s ::: **%(levelname)s** %(message)s', datefmt='%Y-%m-%d %I:%M:%S')
     
     logger = logging.getLogger(frame.function)
