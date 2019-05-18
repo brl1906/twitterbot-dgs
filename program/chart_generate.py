@@ -3,8 +3,11 @@ to be passed as images to tweet.
 Author: Babila Lima
 Date 3/3/2019
 """
+import inspect
+import logging
 import os
 import shutil
+import sys
 from datetime import datetime
 
 import matplotlib.colors
@@ -15,9 +18,11 @@ import seaborn as sns
 
 sns.set_style(style='ticks')
 
+
 ##################################################################
                         # HELPER FUNCTIONS #
 ##################################################################
+
 image_folder = os.path.join(os.pardir,'data','images')
 
 def delete_directory(folder):
@@ -49,17 +54,30 @@ def delete_directory(folder):
             [files_for_removal.append(f) for f in os.listdir(folder)]
             num_files = len(files_for_removal) 
             shutil.rmtree(folder)
-
-            print('this should log: {} :: {} deleted '
-                  .format(timestamp, folder))
             status = 'Pass'
 
         except OSError as e:
-            status = 'Fail'
-            print('folder: {} -- {}'.format(folder, e))
+            status = 'Fail... could not delete {}  -- {}'.format(folder, e)
             
     else:
         pass
+    
+    ## Event logging to capture the module name,
+    ## function name and runtime and status of function
+    ## log configured to append (filemode='a) on each run 
+    ## and not to rewrite (filemode='w') after each run
+    obj = inspect.currentframe()
+    frame = inspect.getframeinfo(obj)
+    
+    logging.basicConfig(
+        filename='test_log.log',
+        format='%(asctime)s ::: **%(levelname)s** %(message)s', datefmt='%Y-%m-%d %I:%M:%S')
+    
+    logger = logging.getLogger(frame.function)
+    logger.setLevel(logging.DEBUG)
+    log_message = ('MODULE:: {} FUNCTION:: {} STATUS::   {}'
+                   .format(frame.filename,frame.function,status))
+    logger.debug(log_message)
     
     return status
 
@@ -158,11 +176,30 @@ def topn_requests_donut(df, period, topn=20):
         base_fname = ('{} top{}_requests_week{}.png'
                         .format(stamp,topn,current_week))
     else:
-        pass
-
+        pass # this could be improved to a log error or warning 
+    
     full_fname = os.path.join(os.pardir,'data','images', base_fname)
     image = pie.savefig(fname=full_fname)
-
+        
+    if os.path.isfile(full_fname): 
+        status = 'Pass'
+    else:
+        status = 'Fail'
+        
+    ## Event logging 
+    obj = inspect.currentframe()
+    frame = inspect.getframeinfo(obj)
+    
+    logging.basicConfig(
+        filename='test_log.log',
+        format='%(asctime)s ::: **%(levelname)s** %(message)s', datefmt='%Y-%m-%d %I:%M:%S')
+    
+    logger = logging.getLogger(frame.function)
+    logger.setLevel(logging.DEBUG)
+    log_message = ('MODULE:: {} FUNCTION:: {} STATUS::   {}'
+                   .format(frame.filename,frame.function,status))
+    logger.debug(log_message)
+    
     return full_fname
 
 
@@ -238,5 +275,24 @@ def yearoveryear_reqeusts_volume(df):
     base_fname = ('{} weekly_volume_comparision.png'.format(runtime_stamp))
     full_fname = os.path.join(os.pardir, 'data','images', base_fname)
     fig.savefig(full_fname)
+    
+    if os.path.isfile(full_fname):
+        status = 'Pass'
+    else:
+        status = 'Fail'
+    
+    ## Event logging 
+    obj = inspect.currentframe()
+    frame = inspect.getframeinfo(obj)
+    
+    logging.basicConfig(
+        filename='test_log.log',
+        format='%(asctime)s ::: **%(levelname)s** %(message)s', datefmt='%Y-%m-%d %I:%M:%S')
+    
+    logger = logging.getLogger(frame.function)
+    logger.setLevel(logging.DEBUG)
+    log_message = ('MODULE:: {} FUNCTION:: {} STATUS::   {}'
+                   .format(frame.filename,frame.function,status))
+    logger.debug(log_message)
     
     return full_fname
