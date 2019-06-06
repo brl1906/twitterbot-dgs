@@ -1,7 +1,7 @@
 
 # DGS Twitterbot
 
-Add descriptive info here. (Ana)
+Add descriptive info here.
 
 # Project Purpose
 
